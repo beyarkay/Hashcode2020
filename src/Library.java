@@ -9,6 +9,9 @@ public class Library {
 	
 	boolean SignedUp;
 	
+	//STU
+	double score;
+	
 	public Library() {
 	}
 	

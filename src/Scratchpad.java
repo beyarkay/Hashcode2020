@@ -57,11 +57,8 @@ public class Scratchpad {
 		}
 		
 		scanner.close();
-
-
-//		MVP_boyd();
-		mvp_Luc();
-		System.out.println(signedUpLibraries.size());
+		
+		stu();
 		PrintOutput();
 	}
 
@@ -91,7 +88,44 @@ public class Scratchpad {
 		
 	}
 	
-	// END LUC
+	static void stu() {
+		for (Library library : libraryList) {
+			int totalBooksScore = 0;
+			for (Book book : library.booksInLibrary)
+				totalBooksScore += book.score;
+			
+			
+			//daysToSignup + intFloor(library.numBooks / library.booksShippedDaily);
+			int lifespan = library.daysToSignup + library.numBooks + library.booksShippedDaily - 1/ library.booksShippedDaily;
+			
+			library.score = (double)totalBooksScore / lifespan;
+		}
+		libraryList.sort(Comparator.comparingDouble(o -> o.score));
+		
+		//Use library with min signup time first
+		int index = -1;
+		int minSignupTime = Integer.MAX_VALUE;
+		
+		for (int i = 0; i < libraryList.size(); i++) {
+			if (libraryList.get(i).daysToSignup < minSignupTime) {
+				index = i;
+				minSignupTime = libraryList.get(i).daysToSignup;
+			}
+		}
+		
+		signedUpLibraries.add(libraryList.remove(index));
+		
+//		for (int d = 0; libraryList.size() > 0 && d < numDays; d += libraryList.get(0).daysToSignup) {
+//			signedUpLibraries.add(libraryList.remove(0));
+//		}
+		
+		int d = 0;
+		while (libraryList.size() > 0 && d < numDays) {
+			d += libraryList.get(0).daysToSignup;
+			signedUpLibraries.add(libraryList.remove(0));
+		}
+	}
+
 	
 	public static void PrintOutput() {
 		try {
