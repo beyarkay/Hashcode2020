@@ -18,5 +18,6 @@ public class Library {
 		booksShippedDaily = books;
 		this.id = id;
 		booksInLibrary = new HashSet<>(numBooks);
+		scannedBooks = new HashSet<>();
 	}
 }

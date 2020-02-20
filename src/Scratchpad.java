@@ -15,15 +15,19 @@ public class Scratchpad {
 
 	static int numBooks, numLibraries, numDays;
 	static List<Book> bookList;
+
 	static List<Library> libraryList;
+	static Library fastestSignupLibrary = new Library(0, Integer.MAX_VALUE, 0, -1);
+
+
 	//	static List<Library> signedUpLibraries;
 	static SortedSet<Library> signedUpLibraries;
 
-	static String outFile = "f.txt";
+	static String outFile = "differently.txt" + System.currentTimeMillis();
 
 	public static void main(String[] args) throws FileNotFoundException {
 
-		Scanner scanner = new Scanner(new FileReader(INPUT_FILES[5]));
+		Scanner scanner = new Scanner(new FileReader(INPUT_FILES[0]));
 		numBooks = scanner.nextInt(); // B
 		numLibraries = scanner.nextInt(); // L
 		numDays = scanner.nextInt(); // D
@@ -31,6 +35,7 @@ public class Scratchpad {
 
 		bookList = new ArrayList<>(numBooks);
 		libraryList = new ArrayList<>(numLibraries);
+		signedUpLibraries = new TreeSet<>(Comparator.comparingInt(o -> o.signupOrder));
 
 		for (int i = 0; i < numBooks; i++) {
 			bookList.add(new Book(scanner.nextInt(), i));
@@ -44,6 +49,11 @@ public class Scratchpad {
 			for (int j = 0; j < Nj; j++) {
 				libraryList.get(i).booksInLibrary.add(bookList.get(scanner.nextInt()));
 			}
+			//Luc
+			if (libraryList.get(i).daysToSignup < fastestSignupLibrary.daysToSignup) {
+				fastestSignupLibrary = libraryList.get(i);
+			}
+			//End Luc
 		}
 
 		scanner.close();
@@ -75,11 +85,23 @@ public class Scratchpad {
 		}
 	}
 
+	// LUC
+	public static void mvp_Luc() {
+		signedUpLibraries.add(fastestSignupLibrary);
+		fastestSignupLibrary.signupOrder = 0;
+		for(Library l : libraryList){
+			l.scannedBooks.addAll(l.booksInLibrary);
+		}
+		signedUpLibraries.addAll(libraryList);
+
+	}
+
+	// END LUC
 
 	public static void PrintOutput() {
 		try {
 			PrintWriter pr = new PrintWriter(new FileWriter(new File(outFile)));
-
+			int score = 0;
 			pr.println(signedUpLibraries.size());
 			for (Iterator<Library> iterator = signedUpLibraries.iterator(); iterator.hasNext(); ) {
 				Library library = iterator.next();
@@ -101,9 +123,12 @@ public class Scratchpad {
 				}
 			}
 			pr.close();
-		} catch (IOException e) {
+
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
+
 	}
 //
 }
