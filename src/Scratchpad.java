@@ -10,14 +10,14 @@ public class Scratchpad {
 	static int numBooks, numLibraries, numDays;
 	static List<Book> bookList;
 	static List<Library> libraryList;
-//	static List<Library> signedUpLibraries;
+	//	static List<Library> signedUpLibraries;
 	static SortedSet<Library> signedUpLibraries;
 	
 	static String outFile = "output.txt";
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		
-		Scanner scanner = new Scanner(new FileReader("small.in"));
+		Scanner scanner = new Scanner(new FileReader("a_example.txt"));
 		numBooks = scanner.nextInt(); // B
 		numLibraries = scanner.nextInt(); // L
 		numDays = scanner.nextInt(); // D
@@ -40,14 +40,23 @@ public class Scratchpad {
 		scanner.close();
 	}
 	
-	public static void PrintOutput(){
+	public static void PrintOutput() {
 		try {
 			PrintWriter pr = new PrintWriter(new FileWriter(new File(outFile)));
 			
 			pr.println(signedUpLibraries.size());
+			for (Library library : signedUpLibraries) {
+				pr.print(library.id);
+				pr.print(" ");
+				pr.print(library.scannedBooks.size());
+				pr.println();
+				for (Book book : library.scannedBooks) {
+					pr.print(book.id + " ");
+				}
+				pr.print("\b");
+			}
 			
 			
-		
 		}
 		catch (IOException e) {
 			e.printStackTrace();

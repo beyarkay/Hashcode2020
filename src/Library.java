@@ -5,7 +5,7 @@ public class Library {
 	public int id, signupOrder;
 	public int numBooks, daysToSignup, booksShippedDaily;
 	public Set<Book> booksInLibrary;
-	
+	public Set<Book> scannedBooks;
 	
 	boolean SignedUp;
 	
