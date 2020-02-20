@@ -132,12 +132,12 @@ public class Scratchpad {
 				totalBooksScore += book.score;
 			
 			
-			//daysToSignup + intFloor(library.numBooks / library.booksShippedDaily);
-			int lifespan = library.daysToSignup + library.numBooks + library.booksShippedDaily - 1 / library.booksShippedDaily;
+			//daysToSignup + intCeil(library.numBooks / library.booksShippedDaily);
+			int lifespan = library.daysToSignup + ((library.numBooks + library.booksShippedDaily - 1) / library.booksShippedDaily);
 			
 			library.score = (double) totalBooksScore / lifespan;
 		}
-		libraryList.sort(Comparator.comparingDouble(o -> o.score));
+		libraryList.sort(Comparator.comparingDouble(o -> -o.score));
 		
 		//Use library with min signup time first
 		int index = -1;
