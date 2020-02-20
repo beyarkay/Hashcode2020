@@ -1,7 +1,8 @@
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.SortedSet;
 
 
 public class Scratchpad {
@@ -9,6 +10,10 @@ public class Scratchpad {
 	static int numBooks, numLibraries, numDays;
 	static List<Book> bookList;
 	static List<Library> libraryList;
+//	static List<Library> signedUpLibraries;
+	static SortedSet<Library> signedUpLibraries;
+	
+	static String outFile = "output.txt";
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		
@@ -33,6 +38,21 @@ public class Scratchpad {
 		}
 		
 		scanner.close();
+	}
+	
+	public static void PrintOutput(){
+		try {
+			PrintWriter pr = new PrintWriter(new FileWriter(new File(outFile)));
+			
+			pr.println(signedUpLibraries.size());
+			
+			
+		
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 //
 }

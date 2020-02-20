@@ -2,9 +2,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Library {
-	public int id;
+	public int id, signupOrder;
 	public int numBooks, daysToSignup, booksShippedDaily;
 	public Set<Book> booksInLibrary;
+	
+	
+	boolean SignedUp;
 	
 	public Library() {
 	}
