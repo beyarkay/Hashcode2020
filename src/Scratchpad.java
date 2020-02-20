@@ -12,19 +12,18 @@ public class Scratchpad {
 			"e_so_many_books.txt",
 			"f_libraries_of_the_world.txt"
 	};
-
+	
 	static int numBooks, numLibraries, numDays;
 	static List<Book> bookList;
-
+	
 	static List<Library> libraryList;
 	static Library fastestSignupLibrary = new Library(0, Integer.MAX_VALUE, 0, -1);
-
-
+	
+	
 	//	static List<Library> signedUpLibraries;
 	static SortedSet<Library> signedUpLibraries;
 
-	static String outFile = "differently.txt" + System.currentTimeMillis();
-
+	static String outFile = "differently"+System.currentTimeMillis()+".txt";
 	public static void main(String[] args) throws FileNotFoundException {
 
 		Scanner scanner = new Scanner(new FileReader(INPUT_FILES[0]));
@@ -32,16 +31,16 @@ public class Scratchpad {
 		numLibraries = scanner.nextInt(); // L
 		numDays = scanner.nextInt(); // D
 		scanner.nextLine();
-
+		
 		bookList = new ArrayList<>(numBooks);
 		libraryList = new ArrayList<>(numLibraries);
 		signedUpLibraries = new TreeSet<>(Comparator.comparingInt(o -> o.signupOrder));
-
+		
 		for (int i = 0; i < numBooks; i++) {
 			bookList.add(new Book(scanner.nextInt(), i));
 		}
 		scanner.nextLine();
-
+		
 		for (int i = 0; i < numLibraries; i++) {
 			int Nj = scanner.nextInt();
 			libraryList.add(new Library(Nj, scanner.nextInt(), scanner.nextInt(), i));
@@ -55,7 +54,7 @@ public class Scratchpad {
 			}
 			//End Luc
 		}
-
+		
 		scanner.close();
 
 
@@ -93,11 +92,48 @@ public class Scratchpad {
 			l.scannedBooks.addAll(l.booksInLibrary);
 		}
 		signedUpLibraries.addAll(libraryList);
+		
+	}
+	
+	static void stu() {
+		for (Library library : libraryList) {
+			int totalBooksScore = 0;
+			for (Book book : library.booksInLibrary)
+				totalBooksScore += book.score;
 
+
+			//daysToSignup + intFloor(library.numBooks / library.booksShippedDaily);
+			int lifespan = library.daysToSignup + library.numBooks + library.booksShippedDaily - 1/ library.booksShippedDaily;
+
+			library.score = (double)totalBooksScore / lifespan;
+		}
+		libraryList.sort(Comparator.comparingDouble(o -> o.score));
+
+		//Use library with min signup time first
+		int index = -1;
+		int minSignupTime = Integer.MAX_VALUE;
+
+		for (int i = 0; i < libraryList.size(); i++) {
+			if (libraryList.get(i).daysToSignup < minSignupTime) {
+				index = i;
+				minSignupTime = libraryList.get(i).daysToSignup;
+			}
+		}
+
+		signedUpLibraries.add(libraryList.remove(index));
+
+//		for (int d = 0; libraryList.size() > 0 && d < numDays; d += libraryList.get(0).daysToSignup) {
+//			signedUpLibraries.add(libraryList.remove(0));
+//		}
+
+		int d = 0;
+		while (libraryList.size() > 0 && d < numDays) {
+			d += libraryList.get(0).daysToSignup;
+			signedUpLibraries.add(libraryList.remove(0));
+		}
 	}
 
-	// END LUC
-
+	
 	public static void PrintOutput() {
 		try {
 			PrintWriter pr = new PrintWriter(new FileWriter(new File(outFile)));
