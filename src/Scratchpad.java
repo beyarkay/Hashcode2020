@@ -3,7 +3,7 @@ import java.util.*;
 
 
 public class Scratchpad {
-
+	
 	static String[] INPUT_FILES = new String[]{
 			"a_example.txt",
 			"b_read_on.txt",
@@ -23,10 +23,10 @@ public class Scratchpad {
 	//	static List<Library> signedUpLibraries;
 	static SortedSet<Library> signedUpLibraries;
 	
-	static String outFile = "output.txt";
+	static String outFile = "differently" + System.currentTimeMillis() + ".txt";
 	
 	public static void main(String[] args) throws FileNotFoundException {
-
+		
 		Scanner scanner = new Scanner(new FileReader(INPUT_FILES[0]));
 		numBooks = scanner.nextInt(); // B
 		numLibraries = scanner.nextInt(); // L
@@ -59,19 +59,21 @@ public class Scratchpad {
 		scanner.close();
 
 
-		MVP_boyd();
+//		MVP_boyd();
+		mvp_Luc();
 		System.out.println(signedUpLibraries.size());
 		PrintOutput();
 	}
-
+	
 	public static void MVP_boyd() {
 		Comparator<Library> libraryComparator = Comparator.comparingInt(l -> l.numBooks);
 		signedUpLibraries = new TreeSet<>(libraryComparator);
-
+		
+		
 		Comparator<Book> bookComparator = Comparator.comparingInt(b -> b.score);
-
+		
 		for (Library l : libraryList) {
-			for(Book b: l.booksInLibrary){
+			for (Book b : l.booksInLibrary) {
 				l.scannedBooks = new TreeSet<>(bookComparator);
 				l.scannedBooks.add(b);
 			}
@@ -83,7 +85,9 @@ public class Scratchpad {
 	public static void mvp_Luc() {
 		signedUpLibraries.add(fastestSignupLibrary);
 		fastestSignupLibrary.signupOrder = 0;
-		
+		for (Library l : libraryList) {
+			l.scannedBooks.addAll(l.booksInLibrary);
+		}
 		signedUpLibraries.addAll(libraryList);
 		
 	}
