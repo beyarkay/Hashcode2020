@@ -23,7 +23,7 @@ public class Scratchpad {
 	//	static List<Library> signedUpLibraries;
 	static SortedSet<Library> signedUpLibraries;
 	
-	static String outFile = "output.txt";
+	static String outFile = "differently.txt" + System.currentTimeMillis();
 	
 	public static void main(String[] args) throws FileNotFoundException {
 
@@ -59,7 +59,8 @@ public class Scratchpad {
 		scanner.close();
 
 
-		MVP_boyd();
+//		MVP_boyd();
+		mvp_Luc();
 		System.out.println(signedUpLibraries.size());
 		PrintOutput();
 	}
@@ -67,6 +68,7 @@ public class Scratchpad {
 	public static void MVP_boyd() {
 		Comparator<Library> libraryComparator = Comparator.comparingInt(l -> l.numBooks);
 		signedUpLibraries = new TreeSet<>(libraryComparator);
+		
 
 		Comparator<Book> bookComparator = Comparator.comparingInt(b -> b.score);
 
@@ -83,7 +85,9 @@ public class Scratchpad {
 	public static void mvp_Luc() {
 		signedUpLibraries.add(fastestSignupLibrary);
 		fastestSignupLibrary.signupOrder = 0;
-		
+		for(Library l : libraryList){
+			l.scannedBooks.addAll(l.booksInLibrary);
+		}
 		signedUpLibraries.addAll(libraryList);
 		
 	}
