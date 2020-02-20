@@ -3,7 +3,7 @@ import java.util.*;
 
 
 public class Scratchpad {
-	
+
 	static String[] INPUT_FILES = new String[]{
 			"a_example.txt",
 			"b_read_on.txt",
@@ -26,8 +26,8 @@ public class Scratchpad {
 	static String outFile = "output.txt";
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		
-		Scanner scanner = new Scanner(new FileReader("a_example.txt"));
+
+		Scanner scanner = new Scanner(new FileReader(INPUT_FILES[0]));
 		numBooks = scanner.nextInt(); // B
 		numLibraries = scanner.nextInt(); // L
 		numDays = scanner.nextInt(); // D
@@ -57,13 +57,26 @@ public class Scratchpad {
 		}
 		
 		scanner.close();
-		
-		mvp_Luc();
+
+
+		MVP_boyd();
+		System.out.println(signedUpLibraries.size());
+		PrintOutput();
 	}
-	
+
 	public static void MVP_boyd() {
-	
-	
+		Comparator<Library> libraryComparator = Comparator.comparingInt(l -> l.numBooks);
+		signedUpLibraries = new TreeSet<>(libraryComparator);
+
+		Comparator<Book> bookComparator = Comparator.comparingInt(b -> b.score);
+
+		for (Library l : libraryList) {
+			for(Book b: l.booksInLibrary){
+				l.scannedBooks = new TreeSet<>(bookComparator);
+				l.scannedBooks.add(b);
+			}
+			signedUpLibraries.add(l);
+		}
 	}
 	
 	// LUC
