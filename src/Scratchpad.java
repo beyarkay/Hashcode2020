@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.ArrayList;
 
 
 public class Scratchpad {
@@ -17,11 +18,14 @@ public class Scratchpad {
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		
-		Scanner scanner = new Scanner(new FileReader("a_example.txt"));
+		Scanner scanner = new Scanner(new FileReader("small.in"));
 		numBooks = scanner.nextInt(); // B
 		numLibraries = scanner.nextInt(); // L
 		numDays = scanner.nextInt(); // D
 		scanner.nextLine();
+		
+		bookList = new ArrayList<>(numBooks);
+		libraryList = new ArrayList<>(numLibraries);
 		
 		for (int i = 0; i < numBooks; i++) {
 			bookList.add(new Book(scanner.nextInt(), i));
