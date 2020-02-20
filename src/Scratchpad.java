@@ -4,6 +4,8 @@ import java.util.*;
 
 public class Scratchpad {
 	
+	static int caseNumber = 1;
+	
 	static String[] INPUT_FILES = new String[]{
 			"a_example.txt",
 			"b_read_on.txt",
@@ -11,6 +13,15 @@ public class Scratchpad {
 			"d_tough_choices.txt",
 			"e_so_many_books.txt",
 			"f_libraries_of_the_world.txt"
+	};
+	
+	static String[] OUTPUT_FILES = new String[]{
+			"output/a.txt",
+			"output/b.txt",
+			"output/c.txt",
+			"output/d.txt",
+			"output/e.txt",
+			"output/f.txt"
 	};
 	
 	static int numBooks, numLibraries, numDays;
@@ -23,11 +34,9 @@ public class Scratchpad {
 	//	static List<Library> signedUpLibraries;
 	static SortedSet<Library> signedUpLibraries;
 	
-	static String outFile = "differently" + System.currentTimeMillis() + ".txt";
-	
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws IOException {
 		
-		Scanner scanner = new Scanner(new FileReader(INPUT_FILES[0]));
+		Scanner scanner = new Scanner(new FileReader(INPUT_FILES[caseNumber]));
 		numBooks = scanner.nextInt(); // B
 		numLibraries = scanner.nextInt(); // L
 		numDays = scanner.nextInt(); // D
@@ -59,8 +68,7 @@ public class Scratchpad {
 		scanner.close();
 		
 		
-		MVP_boyd();
-		System.out.println(signedUpLibraries.size());
+		stu();
 		PrintOutput();
 	}
 	
@@ -135,36 +143,36 @@ public class Scratchpad {
 	}
 	
 	
-	public static void PrintOutput() {
-		try {
-			PrintWriter pr = new PrintWriter(new FileWriter(new File(outFile)));
-			int score = 0;
-			pr.println(signedUpLibraries.size());
-			for (Iterator<Library> iterator = signedUpLibraries.iterator(); iterator.hasNext(); ) {
-				Library library = iterator.next();
-				
-				pr.print(library.id);
-				pr.print(" ");
-				pr.print(library.scannedBooks.size());
-				pr.println();
-				for (Iterator<Book> iter = library.scannedBooks.iterator(); iter.hasNext(); ) {
-					Book book = iter.next();
-					pr.print(book.id);
-					if (iter.hasNext()) {
-						pr.print(" ");
-					}
-				}
-				
-				if (iterator.hasNext()) {
-					pr.println();
+	public static void PrintOutput() throws IOException {
+		File directory = new File("output/");
+		if (!directory.exists())
+			directory.mkdir();
+		
+		PrintWriter pr = new PrintWriter(new FileWriter(new File(OUTPUT_FILES[caseNumber])));
+		int score = 0;
+		pr.println(signedUpLibraries.size());
+		for (Iterator<Library> iterator = signedUpLibraries.iterator(); iterator.hasNext(); ) {
+			Library library = iterator.next();
+			
+			pr.print(library.id);
+			pr.print(" ");
+			pr.print(library.scannedBooks.size());
+			pr.println();
+			for (Iterator<Book> iter = library.scannedBooks.iterator(); iter.hasNext(); ) {
+				Book book = iter.next();
+				pr.print(book.id);
+				if (iter.hasNext()) {
+					pr.print(" ");
 				}
 			}
-			pr.close();
 			
+			if (iterator.hasNext()) {
+				pr.println();
+			}
 		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
+		pr.close();
+		
+		
 		
 	}
 //
