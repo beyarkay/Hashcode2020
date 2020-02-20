@@ -32,7 +32,7 @@ public class Scratchpad {
 
 
 	//	static List<Library> signedUpLibraries;
-	static SortedSet<Library> signedUpLibraries;
+	static ArrayList<Library> signedUpLibraries;
 
 	public static void main(String[] args) throws IOException {
 		if (args.length > 0) {
@@ -47,7 +47,7 @@ public class Scratchpad {
 
 		bookList = new ArrayList<>(numBooks);
 		libraryList = new ArrayList<>(numLibraries);
-		signedUpLibraries = new TreeSet<>(Comparator.comparingInt(o -> o.signupOrder));
+		signedUpLibraries = new ArrayList<>();
 
 		for (int i = 0; i < numBooks; i++) {
 			bookList.add(new Book(scanner.nextInt(), i));
@@ -77,19 +77,6 @@ public class Scratchpad {
 	}
 
 	public static void boyd_mvp() {
-		Comparator<Library> libraryComparator = new Comparator<Library>() {
-			@Override
-			public int compare(Library o1, Library o2) {
-				if (o1.numBooks < o2.numBooks) {
-					return -1;
-				} else {
-					return 1;
-				}
-			}
-		};
-		
-		
-		signedUpLibraries = new TreeSet<>(libraryComparator);
 		
 		Comparator<Book> bookComparator = Comparator.comparingInt(b -> -b.score);
 		
@@ -106,7 +93,6 @@ public class Scratchpad {
 	
 	public static void boyd_attempt1() {
 		Comparator<Library> libraryComparator = Comparator.comparingInt(l -> l.numBooks);
-		signedUpLibraries = new TreeSet<>(libraryComparator);
 		
 		Comparator<Book> bookComparator = Comparator.comparingInt(b -> -b.score);
 		
@@ -171,7 +157,7 @@ public class Scratchpad {
 //		}
 		
 		int d = 0;
-		while (libraryList.size() > 0 && d < numDays) {
+		while (libraryList.size() > 0) {
 			d += libraryList.get(0).daysToSignup;
 			signedUpLibraries.add(libraryList.remove(0));
 		}
