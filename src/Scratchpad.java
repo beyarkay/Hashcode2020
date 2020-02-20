@@ -7,6 +7,15 @@ import java.util.ArrayList;
 
 
 public class Scratchpad {
+
+	static String[] INPUT_FILES = new String[]{
+			"a_example.txt",
+			"b_read_on.txt",
+			"c_incunabula.txt",
+			"d_tough_choices.txt",
+			"e_so_many_books.txt",
+			"f_libraries_of_the_world.txt"
+	};
 	
 	static int numBooks, numLibraries, numDays;
 	static List<Book> bookList;
@@ -18,7 +27,7 @@ public class Scratchpad {
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		
-		Scanner scanner = new Scanner(new FileReader("small.in"));
+		Scanner scanner = new Scanner(new FileReader(INPUT_FILES[0]));
 		numBooks = scanner.nextInt(); // B
 		numLibraries = scanner.nextInt(); // L
 		numDays = scanner.nextInt(); // D
@@ -43,6 +52,13 @@ public class Scratchpad {
 		
 		scanner.close();
 	}
+
+	public static void MVP_boyd(){
+
+
+
+	}
+
 	
 	public static void PrintOutput() {
 		try {
