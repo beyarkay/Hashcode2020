@@ -3,8 +3,9 @@ import java.util.*;
 
 
 public class Scratchpad {
+	
 	static int caseNumber = 1;
-
+	
 	static String[] INPUT_FILES = new String[]{
 			"a_example.txt",
 			"b_read_on.txt",
@@ -195,7 +196,6 @@ public class Scratchpad {
 			}
 		}
 		pr.close();
-
 
 	}
 //
