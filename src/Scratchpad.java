@@ -23,7 +23,7 @@ public class Scratchpad {
 	//	static List<Library> signedUpLibraries;
 	static SortedSet<Library> signedUpLibraries;
 	
-	static String outFile = "differently.txt" + System.currentTimeMillis();
+	static String outFile = "differently"+System.currentTimeMillis()+".txt";
 	
 	public static void main(String[] args) throws FileNotFoundException {
 
