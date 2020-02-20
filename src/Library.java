@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -5,7 +6,7 @@ public class Library {
 	public int id, signupOrder;
 	public int numBooks, daysToSignup, booksShippedDaily;
 	public Set<Book> booksInLibrary;
-	public Set<Book> scannedBooks;
+	public ArrayList<Book> scannedBooks;
 	
 	boolean SignedUp;
 	
@@ -21,6 +22,6 @@ public class Library {
 		booksShippedDaily = books;
 		this.id = id;
 		booksInLibrary = new HashSet<>(numBooks);
-		scannedBooks = new HashSet<>();
+		scannedBooks = new ArrayList<Book>();
 	}
 }

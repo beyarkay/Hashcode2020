@@ -86,7 +86,6 @@ public class Scratchpad {
 		for (Library l : libraryList) {
 			System.out.print("size " + l.booksInLibrary.size());
 			
-			l.scannedBooks = new TreeSet<>(bookComparator);
 			l.scannedBooks.addAll(l.booksInLibrary);
 			
 			System.out.println(" " + l.scannedBooks.size());
@@ -107,11 +106,7 @@ public class Scratchpad {
 //			System.out.print(" ");
 			System.out.print("size " + l.booksInLibrary.size());
 			
-			l.scannedBooks = new TreeSet<>(bookComparator);
-			for (Book b : l.booksInLibrary) {
-				l.scannedBooks.add(b);
-				System.out.print(b + " ");
-			}
+			l.scannedBooks.addAll(l.booksInLibrary);
 			
 			
 			System.out.println(" " + l.scannedBooks.size());
@@ -136,8 +131,8 @@ public class Scratchpad {
 	static void stu() {
 		Comparator<Book> bookComparator = Comparator.comparingInt(b -> -b.score);
 		for (Library library : libraryList) {
-			library.scannedBooks = new TreeSet<>(bookComparator);
 			library.scannedBooks.addAll(library.booksInLibrary);
+			library.scannedBooks.sort(bookComparator);
 			
 			int totalBooksScore = 0;
 			for (Book book : library.booksInLibrary)
