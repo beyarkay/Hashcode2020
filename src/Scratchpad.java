@@ -3,7 +3,7 @@ import java.util.*;
 
 
 public class Scratchpad {
-
+	
 	static String[] INPUT_FILES = new String[]{
 			"a_example.txt",
 			"b_read_on.txt",
@@ -22,10 +22,11 @@ public class Scratchpad {
 	
 	//	static List<Library> signedUpLibraries;
 	static SortedSet<Library> signedUpLibraries;
-
-	static String outFile = "differently"+System.currentTimeMillis()+".txt";
+	
+	static String outFile = "differently" + System.currentTimeMillis() + ".txt";
+	
 	public static void main(String[] args) throws FileNotFoundException {
-
+		
 		Scanner scanner = new Scanner(new FileReader(INPUT_FILES[0]));
 		numBooks = scanner.nextInt(); // B
 		numLibraries = scanner.nextInt(); // L
@@ -56,39 +57,39 @@ public class Scratchpad {
 		}
 		
 		scanner.close();
-
-
+		
+		
 		MVP_boyd();
 		System.out.println(signedUpLibraries.size());
 		PrintOutput();
 	}
-
+	
 	public static void MVP_boyd() {
 		Comparator<Library> libraryComparator = Comparator.comparingInt(l -> l.numBooks);
 		signedUpLibraries = new TreeSet<>(libraryComparator);
-
+		
 		Comparator<Book> bookComparator = Comparator.comparingInt(b -> b.score);
-
+		
 		for (Library l : libraryList) {
 //			System.out.print(l.id);
 //			System.out.print(" ");
 			System.out.print("size " + l.booksInLibrary.size());
-
+			
 			l.scannedBooks = new TreeSet<>(bookComparator);
 			l.scannedBooks.addAll(l.booksInLibrary);
-
+			
 			System.out.println(" " + l.scannedBooks.size());
 
 //			System.out.println(l.scannedBooks.size());
 			signedUpLibraries.add(l);
 		}
 	}
-
+	
 	// LUC
 	public static void mvp_Luc() {
 		signedUpLibraries.add(fastestSignupLibrary);
 		fastestSignupLibrary.signupOrder = 0;
-		for(Library l : libraryList){
+		for (Library l : libraryList) {
 			l.scannedBooks.addAll(l.booksInLibrary);
 		}
 		signedUpLibraries.addAll(libraryList);
@@ -100,39 +101,39 @@ public class Scratchpad {
 			int totalBooksScore = 0;
 			for (Book book : library.booksInLibrary)
 				totalBooksScore += book.score;
-
-
+			
+			
 			//daysToSignup + intFloor(library.numBooks / library.booksShippedDaily);
-			int lifespan = library.daysToSignup + library.numBooks + library.booksShippedDaily - 1/ library.booksShippedDaily;
-
-			library.score = (double)totalBooksScore / lifespan;
+			int lifespan = library.daysToSignup + library.numBooks + library.booksShippedDaily - 1 / library.booksShippedDaily;
+			
+			library.score = (double) totalBooksScore / lifespan;
 		}
 		libraryList.sort(Comparator.comparingDouble(o -> o.score));
-
+		
 		//Use library with min signup time first
 		int index = -1;
 		int minSignupTime = Integer.MAX_VALUE;
-
+		
 		for (int i = 0; i < libraryList.size(); i++) {
 			if (libraryList.get(i).daysToSignup < minSignupTime) {
 				index = i;
 				minSignupTime = libraryList.get(i).daysToSignup;
 			}
 		}
-
+		
 		signedUpLibraries.add(libraryList.remove(index));
 
 //		for (int d = 0; libraryList.size() > 0 && d < numDays; d += libraryList.get(0).daysToSignup) {
 //			signedUpLibraries.add(libraryList.remove(0));
 //		}
-
+		
 		int d = 0;
 		while (libraryList.size() > 0 && d < numDays) {
 			d += libraryList.get(0).daysToSignup;
 			signedUpLibraries.add(libraryList.remove(0));
 		}
 	}
-
+	
 	
 	public static void PrintOutput() {
 		try {
@@ -141,7 +142,7 @@ public class Scratchpad {
 			pr.println(signedUpLibraries.size());
 			for (Iterator<Library> iterator = signedUpLibraries.iterator(); iterator.hasNext(); ) {
 				Library library = iterator.next();
-
+				
 				pr.print(library.id);
 				pr.print(" ");
 				pr.print(library.scannedBooks.size());
@@ -149,22 +150,22 @@ public class Scratchpad {
 				for (Iterator<Book> iter = library.scannedBooks.iterator(); iter.hasNext(); ) {
 					Book book = iter.next();
 					pr.print(book.id);
-					if(iter.hasNext()){
+					if (iter.hasNext()) {
 						pr.print(" ");
 					}
 				}
-
+				
 				if (iterator.hasNext()) {
 					pr.println();
 				}
 			}
 			pr.close();
-
+			
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
 	}
 //
 }
