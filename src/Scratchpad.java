@@ -1,13 +1,9 @@
 import java.io.*;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.ArrayList;
+import java.util.*;
 
 
 public class Scratchpad {
-
+	
 	static String[] INPUT_FILES = new String[]{
 			"a_example.txt",
 			"b_read_on.txt",
@@ -19,7 +15,11 @@ public class Scratchpad {
 	
 	static int numBooks, numLibraries, numDays;
 	static List<Book> bookList;
+	
 	static List<Library> libraryList;
+	static Library fastestSignupLibrary = new Library(0, Integer.MAX_VALUE, 0, -1);
+	
+	
 	//	static List<Library> signedUpLibraries;
 	static SortedSet<Library> signedUpLibraries;
 	
@@ -27,7 +27,7 @@ public class Scratchpad {
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		
-		Scanner scanner = new Scanner(new FileReader(INPUT_FILES[0]));
+		Scanner scanner = new Scanner(new FileReader("a_example.txt"));
 		numBooks = scanner.nextInt(); // B
 		numLibraries = scanner.nextInt(); // L
 		numDays = scanner.nextInt(); // D
@@ -35,6 +35,7 @@ public class Scratchpad {
 		
 		bookList = new ArrayList<>(numBooks);
 		libraryList = new ArrayList<>(numLibraries);
+		signedUpLibraries = new TreeSet<>(Comparator.comparingInt(o -> o.signupOrder));
 		
 		for (int i = 0; i < numBooks; i++) {
 			bookList.add(new Book(scanner.nextInt(), i));
@@ -48,22 +49,38 @@ public class Scratchpad {
 			for (int j = 0; j < Nj; j++) {
 				libraryList.get(i).booksInLibrary.add(bookList.get(scanner.nextInt()));
 			}
+			//Luc
+			if (libraryList.get(i).daysToSignup < fastestSignupLibrary.daysToSignup) {
+				fastestSignupLibrary = libraryList.get(i);
+			}
+			//End Luc
 		}
 		
 		scanner.close();
+		
+		mvp_Luc();
 	}
-
-	public static void MVP_boyd(){
-
-
-
+	
+	public static void MVP_boyd() {
+	
+	
 	}
-
+	
+	// LUC
+	public static void mvp_Luc() {
+		signedUpLibraries.add(fastestSignupLibrary);
+		fastestSignupLibrary.signupOrder = 0;
+		
+		signedUpLibraries.addAll(libraryList);
+		
+	}
+	
+	// END LUC
 	
 	public static void PrintOutput() {
 		try {
 			PrintWriter pr = new PrintWriter(new FileWriter(new File(outFile)));
-			
+			int score = 0;
 			pr.println(signedUpLibraries.size());
 			for (Library library : signedUpLibraries) {
 				pr.print(library.id);
@@ -72,10 +89,11 @@ public class Scratchpad {
 				pr.println();
 				for (Book book : library.scannedBooks) {
 					pr.print(book.id + " ");
+					score += book.score;
 				}
 				pr.print("\b");
 			}
-			
+			pr.close();
 			
 		}
 		catch (IOException e) {
