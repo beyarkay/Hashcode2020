@@ -14,7 +14,7 @@ public class Scratchpad {
 			"e_so_many_books.txt",
 			"f_libraries_of_the_world.txt"
 	};
-	
+
 	static String[] OUTPUT_FILES = new String[]{
 			"output/a.txt",
 			"output/b.txt",
@@ -23,19 +23,18 @@ public class Scratchpad {
 			"output/e.txt",
 			"output/f.txt"
 	};
-	
+
 	static int numBooks, numLibraries, numDays;
 	static List<Book> bookList;
-	
+
 	static List<Library> libraryList;
 	static Library fastestSignupLibrary = new Library(0, Integer.MAX_VALUE, 0, -1);
-	
-	
+
+
 	//	static List<Library> signedUpLibraries;
 	static SortedSet<Library> signedUpLibraries;
-	
+
 	public static void main(String[] args) throws IOException {
-		
 		if (args.length > 0) {
 			caseNumber = Integer.parseInt(args[0]);
 		}
@@ -45,16 +44,16 @@ public class Scratchpad {
 		numLibraries = scanner.nextInt(); // L
 		numDays = scanner.nextInt(); // D
 		scanner.nextLine();
-		
+
 		bookList = new ArrayList<>(numBooks);
 		libraryList = new ArrayList<>(numLibraries);
 		signedUpLibraries = new TreeSet<>(Comparator.comparingInt(o -> o.signupOrder));
-		
+
 		for (int i = 0; i < numBooks; i++) {
 			bookList.add(new Book(scanner.nextInt(), i));
 		}
 		scanner.nextLine();
-		
+
 		for (int i = 0; i < numLibraries; i++) {
 			int Nj = scanner.nextInt();
 			libraryList.add(new Library(Nj, scanner.nextInt(), scanner.nextInt(), i));
@@ -68,7 +67,7 @@ public class Scratchpad {
 			}
 			//End Luc
 		}
-		
+
 		scanner.close();
 
 
@@ -76,19 +75,29 @@ public class Scratchpad {
 //		boyd_mvp();
 		PrintOutput();
 	}
-	
+
 	public static void boyd_mvp() {
-		Comparator<Library> libraryComparator = Comparator.comparingInt(l -> l.numBooks);
+		Comparator<Library> libraryComparator = new Comparator<Library>() {
+			@Override
+			public int compare(Library o1, Library o2) {
+				if (o1.numBooks < o2.numBooks) {
+					return -1;
+				} else {
+					return 1;
+				}
+			}
+		};
+		
+		
 		signedUpLibraries = new TreeSet<>(libraryComparator);
 		
-		Comparator<Book> bookComparator = Comparator.comparingInt(b -> b.score);
+		Comparator<Book> bookComparator = Comparator.comparingInt(b -> -b.score);
 		
 		for (Library l : libraryList) {
-			System.out.print("size " + l.booksInLibrary.size());
+//			System.out.print("size " + l.booksInLibrary.size());
 			
 			l.scannedBooks.addAll(l.booksInLibrary);
-			
-			System.out.println(" " + l.scannedBooks.size());
+			l.scannedBooks.sort(bookComparator);
 
 //			System.out.println(l.scannedBooks.size());
 			signedUpLibraries.add(l);
@@ -99,19 +108,17 @@ public class Scratchpad {
 		Comparator<Library> libraryComparator = Comparator.comparingInt(l -> l.numBooks);
 		signedUpLibraries = new TreeSet<>(libraryComparator);
 		
-		Comparator<Book> bookComparator = Comparator.comparingInt(b -> b.score);
+		Comparator<Book> bookComparator = Comparator.comparingInt(b -> -b.score);
 		
 		for (Library l : libraryList) {
-//			System.out.print(l.id);
-//			System.out.print(" ");
-			System.out.print("size " + l.booksInLibrary.size());
+//			System.out.print("size " + l.booksInLibrary.size());
 			
 			l.scannedBooks.addAll(l.booksInLibrary);
+			l.scannedBooks.sort(bookComparator);
 			
 			
-			System.out.println(" " + l.scannedBooks.size());
-
-//			System.out.println(l.scannedBooks.size());
+//			System.out.println(" " + l.scannedBooks.size());
+			
 			signedUpLibraries.add(l);
 		}
 	}
@@ -199,6 +206,7 @@ public class Scratchpad {
 			}
 		}
 		pr.close();
+		
 		
 	}
 //
