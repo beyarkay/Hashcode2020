@@ -19,11 +19,11 @@ public class Scratchpad {
 	//	static List<Library> signedUpLibraries;
 	static SortedSet<Library> signedUpLibraries;
 
-	static String outFile = "output.txt";
+	static String outFile = "f.txt";
 
 	public static void main(String[] args) throws FileNotFoundException {
 
-		Scanner scanner = new Scanner(new FileReader(INPUT_FILES[0]));
+		Scanner scanner = new Scanner(new FileReader(INPUT_FILES[5]));
 		numBooks = scanner.nextInt(); // B
 		numLibraries = scanner.nextInt(); // L
 		numDays = scanner.nextInt(); // D
@@ -61,10 +61,16 @@ public class Scratchpad {
 		Comparator<Book> bookComparator = Comparator.comparingInt(b -> b.score);
 
 		for (Library l : libraryList) {
-			for(Book b: l.booksInLibrary){
-				l.scannedBooks = new TreeSet<>(bookComparator);
-				l.scannedBooks.add(b);
-			}
+//			System.out.print(l.id);
+//			System.out.print(" ");
+			System.out.print("size " + l.booksInLibrary.size());
+
+			l.scannedBooks = new TreeSet<>(bookComparator);
+			l.scannedBooks.addAll(l.booksInLibrary);
+
+			System.out.println(" " + l.scannedBooks.size());
+
+//			System.out.println(l.scannedBooks.size());
 			signedUpLibraries.add(l);
 		}
 	}
@@ -75,16 +81,24 @@ public class Scratchpad {
 			PrintWriter pr = new PrintWriter(new FileWriter(new File(outFile)));
 
 			pr.println(signedUpLibraries.size());
-			for (Library library : signedUpLibraries) {
+			for (Iterator<Library> iterator = signedUpLibraries.iterator(); iterator.hasNext(); ) {
+				Library library = iterator.next();
 
 				pr.print(library.id);
 				pr.print(" ");
 				pr.print(library.scannedBooks.size());
 				pr.println();
-				for (Book book : library.scannedBooks) {
-					pr.print(book.id + " ");
+				for (Iterator<Book> iter = library.scannedBooks.iterator(); iter.hasNext(); ) {
+					Book book = iter.next();
+					pr.print(book.id);
+					if(iter.hasNext()){
+						pr.print(" ");
+					}
 				}
-				pr.print("\b");
+
+				if (iterator.hasNext()) {
+					pr.println();
+				}
 			}
 			pr.close();
 		} catch (IOException e) {
