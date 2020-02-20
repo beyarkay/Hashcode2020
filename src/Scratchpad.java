@@ -19,11 +19,18 @@ public class Scratchpad {
 		scanner.nextLine();
 		
 		for (int i = 0; i < numBooks; i++) {
-			bookList.add(new Book(scanner.nextInt()));
+			bookList.add(new Book(scanner.nextInt(), i));
 		}
 		scanner.nextLine();
 		
-		
+		for (int i = 0; i < numLibraries; i++) {
+			int Nj = scanner.nextInt();
+			libraryList.add(new Library(Nj, scanner.nextInt(), scanner.nextInt(), i));
+			scanner.nextLine();
+			for (int j = 0; j < Nj; j++) {
+				libraryList.get(i).booksInLibrary.add(bookList.get(scanner.nextInt()));
+			}
+		}
 		
 		scanner.close();
 	}
