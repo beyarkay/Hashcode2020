@@ -175,8 +175,10 @@ public class Scratchpad {
 					if(k>bestLibrary.numBooks) break;
 				}
 			}
-			signedUpLibraries.add(bestLibrary);
-			libraryList.remove(bestLibrary);
+			if (bestLibrary.scannedBooks.size() != 0) {
+				signedUpLibraries.add(bestLibrary);
+				libraryList.remove(bestLibrary);
+			}
 		}
 
 //		for (int d = 0; libraryList.size() > 0 && d < numDays; d += libraryList.get(0).daysToSignup) {
