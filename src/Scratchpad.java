@@ -142,7 +142,7 @@ public class Scratchpad {
 			library.booksInLibrary.sort(bookComparator);
 		}
 		
-		while (libraryList.size() > 0) {
+		while (libraryList.size() > 0 || d >= numDays) {
 			
 			Library bestLibrary = new Library(0, Integer.MAX_VALUE, 0, -1);
 			bestLibrary.score = Double.MIN_VALUE;
@@ -169,16 +169,19 @@ public class Scratchpad {
 			for (int i = 0; i < k; i++) {
 				if (!usedBooks.contains(bestLibrary.booksInLibrary.get(i))) {
 					usedBooks.add(bestLibrary.booksInLibrary.get(i));
-					bestLibrary.scannedBooks.add(bestLibrary.booksInLibrary.get(i));
 				} else {
 					k++;
 					if(k>bestLibrary.numBooks) break;
 				}
+				bestLibrary.scannedBooks.add(bestLibrary.booksInLibrary.get(i));
 			}
+			
 			if (bestLibrary.scannedBooks.size() != 0) {
 				signedUpLibraries.add(bestLibrary);
 				libraryList.remove(bestLibrary);
+				
 			}
+			d += bestLibrary.daysToSignup;
 		}
 
 //		for (int d = 0; libraryList.size() > 0 && d < numDays; d += libraryList.get(0).daysToSignup) {
